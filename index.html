@@ -5,21 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Recipe Generator</title>
     
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React Libraries -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
-    <!-- Babel to transpile JSX in the browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <!-- Firebase SDKs (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +21,6 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Simple fade-in animation */
         @keyframes fade-in {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -37,7 +28,6 @@
         .animate-fade-in {
             animation: fade-in 0.5s ease-in-out;
         }
-        /* Fade-in-up for notifications */
         @keyframes fade-in-up {
             from { opacity: 0; transform: translate(-50%, 20px); }
             to { opacity: 1; transform: translate(-50%, 0); }
@@ -51,52 +41,6 @@
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react">
-// --- This is the App.jsx content embedded directly ---
-
-/*
- * ====================================================================================
- * --- IMPORTANT GUIDE: HOW TO FIX THE "Missing or insufficient permissions" ERROR ---
- * ====================================================================================
- *
- * This error means your app is connecting to Firebase, but the database's security 
- * rules are blocking it. This is not a code bug. You must update the rules in your 
- * Firebase project.
- *
- * --- FOLLOW THESE STEPS CAREFULLY ---
- *
- * 1.  **Go to the Firebase Console:**
- * Open your project: https://console.firebase.google.com/project/smart-recipe-generator-f4715/overview
- *
- * 2.  **Navigate to Firestore Rules:**
- * - In the left-hand "Build" menu, click on "Firestore Database".
- * - At the top of the Firestore page, click the "Rules" tab.
- *
- * 3.  **Replace the Rules:**
- * - Delete ALL the text in the editor.
- * - Copy the rules below and paste them into the empty editor.
- *
- * 4.  **Publish Your Changes:**
- * - Click the "Publish" button.
- *
- * --- COPY THESE RULES ---
- *
- * rules_version = '2';
- * service cloud.firestore {
- * match /databases/{database}/documents {
- * // Allow users to read and write only their own saved recipes
- * match /artifacts/{appId}/users/{userId}/{document=**} {
- * allow read, write: if request.auth != null && request.auth.uid == userId;
- * }
- * }
- * }
- *
- * ====================================================================================
- */
-
-
-// --- Helper Functions & Configuration ---
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAWUjwd1SigM4azYoUoC_i4w0g4_phOfJ0",
     authDomain: "smart-recipe-generator-f4715.firebaseapp.com",
@@ -107,18 +51,12 @@ const firebaseConfig = {
     measurementId: "G-5L3NJXTL0L"
 };
 
-
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'smart-recipe-generator-pro';
 
-// ----------------------------------------------------------------------------------
-// --- IMPORTANT: PASTE YOUR GOOGLE GEMINI API KEY HERE ---
-// ----------------------------------------------------------------------------------
-// Get a free key from Google AI Studio: https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = "AIzaSyAT3Kv5OGCXZhH3aryRdbkFtugdriqIjnE"; // <-- PASTE YOUR KEY INSIDE THE QUOTES
+const GEMINI_API_KEY = ""; // PASTE YOUR GEMINI API KEY HERE
 
 const GEMINI_API_URL_TEXT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
 
-// --- Curated Recipe Database (38 Recipes with DETAILED instructions and balanced filters) ---
 const predefinedRecipes = [
     // Italian
     { recipeName: "Classic Margherita Pizza", baseServings: 4, imageUrl: "https://bellyfull.net/wp-content/uploads/2021/02/Margherita-Pizza-blog-2.jpg", description: "The timeless Italian pizza with fresh tomatoes, mozzarella, and basil.", cuisine: "Italian", difficulty: "Medium", cookingTime: "30", dietaryTags: ["Vegetarian"], ingredients: ["1 (12-inch) pre-baked pizza crust", "0.5 cup pizza sauce", "8 oz fresh mozzarella, sliced", "6 fresh basil leaves", "2 tbsp olive oil"], instructions: ["Preheat oven to 475°F (245°C) with a pizza stone inside.", "Place the dough on a lightly floured surface. Spread sauce evenly, leaving a 1-inch border.", "Arrange mozzarella slices, then bake for 10-12 minutes until crust is golden and cheese is bubbly.", "Garnish with fresh basil and a drizzle of olive oil before serving."], nutritionalInfo: { calories: "300 kcal", protein: "12g", carbs: "35g", fat: "15g" } },
