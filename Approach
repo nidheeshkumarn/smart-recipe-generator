@@ -1,0 +1,8 @@
+My approach to the Smart Recipe Generator was to create a fast, intelligent, and user-centric single-page application by combining a robust frontend with modern backend-as-a-service (BaaS) and AI technologies.
+The application is built with React and styled with Tailwind CSS, ensuring a clean and fully responsive user interface. For the backend, I leveraged Firebase, using its Authentication service for seamless, anonymous user sessions and its Firestore database to securely persist user-specific data like saved recipes and personal ratings.
+A key architectural decision was to use a hybrid model for recipe retrieval. Instead of relying solely on real-time generation, the app performs a smart local search against a curated database of 36 detailed, beginner-friendly recipes. This guarantees speed, reliability, and data consistency.
+The "smart" features are powered by the Google Gemini API in three distinct ways:
+Ingredient Recognition: Analyzing user-uploaded photos to identify ingredients.
+Personalized Suggestions: Using a user's ratings from Firestore to generate tailored recipe recommendations.
+Live Cooking Assistant: Providing a real-time chat for recipe questions and on-the-fly modifications.
+This architecture results in a high-performance, feature-rich application that is both scalable and cost-effective to operate.
